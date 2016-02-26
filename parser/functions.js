@@ -24,6 +24,7 @@ var parserFns = {
 		var manga = {};
 		manga.episode = this.getEpisodeReadManga($data);
 		manga.title = this.getTitleReadManga($data);
+		manga.img = this.getImgReadManga($data);
 		return manga;
 	},
 
@@ -31,6 +32,7 @@ var parserFns = {
 		var manga = {};
 		manga.episode = this.getEpisodeMangaFox($data);
 		manga.title = this.getTitleMangaFox($data);
+		manga.img = this.getImgMangaFox($data);
 		return manga;
 	},
 
@@ -38,6 +40,7 @@ var parserFns = {
 		var manga = {};
 		manga.episode = this.getEpisodeMangaReader($data);
 		manga.title = this.getTitleMangaReader($data);
+		manga.img = this.getImgMangaReader($data);
 		return manga;
 	},
 
@@ -45,6 +48,7 @@ var parserFns = {
 		var manga = {};
 		manga.episode = this.getEpisodeReadMangaToday($data);
 		manga.title = this.getTitleReadMangaToday($data);
+		manga.img = this.getImgReadMangaToday($data);
 		return manga;	
 	},
 
@@ -63,6 +67,12 @@ var parserFns = {
 		return title;
 	},
 
+//TODO: create parisng logic
+	getImgReadManga : function($data) {
+		var $ =  cheerio.load($data);
+		return $('.img-responsive').attr("src");
+	}
+
 	getEpisodeMangaFox : function ($data) {
 		var $ =  cheerio.load($data);
 		var $chList = $('.chlist');
@@ -77,6 +87,11 @@ var parserFns = {
 		return $('#title').find('h1').html();
 	},
 
+	getImgMangaFox : function($data) {
+		var $ =  cheerio.load($data);
+		return $('.cover').find('img').attr("src");
+	},
+
 	getEpisodeMangaReader : function ($data) {
 		var $ =  cheerio.load($data);
 		var $chList = $('#latestchapters');
@@ -89,6 +104,11 @@ var parserFns = {
 		return $('#mangaproperties').find('h1').html();	
 	},
 
+	getImgMangaReader : function($data) {
+		var $ =  cheerio.load($data);
+		return $('#mangaimg').find('img').attr("src");
+	},
+
 	getEpisodeReadMangaToday : function ($data) {
 		var $ =  cheerio.load($data);
 		var url = $('.chp_lst').find('a').first().attr('href');
@@ -99,6 +119,11 @@ var parserFns = {
 	getTitleReadMangaToday : function ($data) {
 		var $ =  cheerio.load($data);
 		return $('.panel-heading > h1').html();
+	},
+
+	getImgReadMangaToday : function($data) {
+		var $ =  cheerio.load($data);
+		return $('.img-responsive').attr("src");
 	}
 }
 

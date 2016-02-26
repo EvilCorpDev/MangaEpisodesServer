@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('MangaEpisodesServer:server');
 var http = require('http');
+var CronJob = require('cron').CronJob;
+var parser = require('../parser');
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +22,15 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+var options = {
+    uri: 'http://www.readmanga.today/shokugeki-no-soma'
+};
+
+//Run CronJob parsing manga episodes every Minute
+var job = new CronJob("*/1 * * * *", function() {
+  parser.updateLastEpisode(options);
+}, null, true);
 
 /**
  * Listen on provided port, on all network interfaces.
