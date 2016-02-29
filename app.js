@@ -30,7 +30,7 @@ app.use('/users', users);
 app.use('/test', function(req, res) {
   console.log("testing parser");
   var options = {
-    uri: 'http://mangafox.me/manga/marchen_the_embodiment_of_tales/',
+    uri: 'http://readmanga.me/rakshasa_street',
   };
   parser.updateLastEpisode(options);
   res.send('dsdsd');

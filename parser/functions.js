@@ -70,8 +70,8 @@ var parserFns = {
 //TODO: create parisng logic
 	getImgReadManga : function($data) {
 		var $ =  cheerio.load($data);
-		return $('.img-responsive').attr("src");
-	}
+		return $('.picture-fotorama').find("img").first().attr("src");
+	},
 
 	getEpisodeMangaFox : function ($data) {
 		var $ =  cheerio.load($data);

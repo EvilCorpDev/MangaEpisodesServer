@@ -24,7 +24,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 var options = {
-    uri: 'http://www.readmanga.today/shokugeki-no-soma'
+    uri: 'http://readmanga.me/the_rising_of_the_shield_hero'
 };
 
 //Run CronJob parsing manga episodes every Minute
