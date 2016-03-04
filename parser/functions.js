@@ -67,7 +67,6 @@ var parserFns = {
 		return title;
 	},
 
-//TODO: create parisng logic
 	getImgReadManga : function($data) {
 		var $ =  cheerio.load($data);
 		return $('.picture-fotorama').find("img").first().attr("src");

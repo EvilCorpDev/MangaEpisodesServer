@@ -4,9 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var repo = require('./repo');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var mangaApi = require('./routes/api/mangaAPI');
 
 var parser = require('./parser');
 
@@ -26,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/api', mangaApi);
 
 app.use('/test', function(req, res) {
   console.log("testing parser");

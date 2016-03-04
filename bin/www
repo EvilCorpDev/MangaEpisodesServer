@@ -1,20 +1,13 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 var app = require('../app');
 var debug = require('debug')('MangaEpisodesServer:server');
 var http = require('http');
 var CronJob = require('cron').CronJob;
 var parser = require('../parser');
+var config = require('../config');
 
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.get('port') || '3000');
 app.set('port', port);
 
 /**
