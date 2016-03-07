@@ -1,28 +1,31 @@
 var express = require('express');
-var repo = require('../../repo');
 var fns = require('../../repo/functions');
+var User = require('../../models/user').User;
 var router = express.Router();
 
 router.post('/', function(req, res, next) {
-	var userName = req.params.username,
-		token = req.params.token;
-
-	res.json(repo.users.find({'username': userName}).mangaList);
+	var userName = req.body.username,
+		token = req.body.token;
+	User.find({'username': userName}, function (err, user) {
+		res.json(user);
+	});
 });
 
-router.post('/aaddUser', function(req, res, next) {
-	var user = {},
-		user.userName = req.params.username,
-		user.email = req.params.token,
-		user.pass = req.params.password;
-
+router.post('/addUser', function(req, res, next) {
+	var user = {};
+	user.username = req.body.username,
+	user.email = req.body.email,
+	user.pass = req.body.password;
+	console.log(user);
 	var newUser = new User(user);
+	newUser.set('password', user.pass);
 	newUser.save(function(err) {
-		console.log(err);
 		console.log(newUser);
 	});
 
-	res.json(repo.users.find({'username': userName}));
+	User.find({'username': userName},function (err, user) {
+		res.json(user);
+	});
 });
 
 module.exports = router;

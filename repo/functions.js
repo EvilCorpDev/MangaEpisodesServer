@@ -1,6 +1,6 @@
 var repo = require('../repo');
-var User = require('./models/user')
-var Manga = require('./models/manga')
+var User = require('../models/user')
+var Manga = require('../models/manga');
 
 repo.addUpdateManga = function(userName, mangaObj) {
 	var user = new User(repo.users.find({"username": userName}));
