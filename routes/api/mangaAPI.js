@@ -6,11 +6,15 @@ var Manga = require('../../models/manga').Manga;
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-	res.json(auth(getMangaAction, req));
+	res.json(auth(actions.getMangaAction, req));
 });
 
 router.post('/', function(req, res, next) {
-	res.json(auth(addMangaAction, req));
+	res.json(auth(actions.addMangaAction, req));
+});
+
+router.post('/delete', function(req, res, next) {
+	res.json(auth(actions.delMangaAction, req));
 });
 
 var auth = function(action, req) {
@@ -22,20 +26,37 @@ var auth = function(action, req) {
 	}
 }
 
-var getMangaAction = function(req) {
-	return User.findOne({"username": req.body.username}).mangaList;
-}
+var actions = {
 
-var addMangaAction = function(req) {
-	if(req.body.url) {
-		var manga = Manga.findOne({"url": req.body.url})
-		if(!manga) {
-			var options = {uri: req.body.url};
-			parser.updateLastEpisode(options);
+	getMangaAction: function(req) {
+		var user = User.find({"username": req.body.username});
+		if(user) {
+			var mangaList = user.mangaList.map(function(element) {
+				return element.url;
+			});
+			return Manga.find({"url": {"$in": mangaList}});
 		}
-		repoFns.addUpdateManga(req.body.username, manga.url);
+	},
+
+	addMangaAction: function(req) {
+		if(req.body.url) {
+			var manga = Manga.findOne({"url": req.body.url})
+			if(!manga) {
+				var options = {uri: req.body.url};
+				parser.updateLastEpisode(options);
+			}
+			repoFns.addUpdateManga(req.body.username, manga.url);
+		}
+		return {"statusCode": 200, "msg": "All is Ok"};
+	},
+
+	delMangaAction: function(req) {
+		if(req.body.url) {
+			return repoFns.deleteManga(req.body.username, req.body.url);
+		}
+		return {"statusCode": 404, "msg": "Not specified subject of deleting"};
 	}
-	return {"statusCode": 200, "msg": "All is Ok"};
+
 }
 
 module.exports = router;

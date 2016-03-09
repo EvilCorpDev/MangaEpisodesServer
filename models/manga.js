@@ -22,6 +22,10 @@ var schema = new Schema({
 	url: {
 		type: String,
 		required: true
+	},
+	linkNumbers: {
+		tupe: Number,
+		default: 1
 	}
 });
 

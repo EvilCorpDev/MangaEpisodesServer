@@ -13,16 +13,21 @@ repo.addUpdateManga = function(userName, mangaUrl) {
 	user.update();
 };
 
-
-repo.deleteManga = function(userName, mangaObj) {
+// add returning result;
+repo.deleteManga = function(userName, mangaUrl) {
+	var manga = Manga.findOne({"url": mangaUrl});
 	var user = new User(repo.users.find({"username": userName}));
-	var manga = new Manga(mangaObj);
-	var index = user.mangaList.indexOf(manga);
-	if (index > -1) {
-		user.mangaList.splice(index, 1);
+	var newMangaList = user.mangaList.filter(function(element) {
+		return element != mangaUrl;
+	});
+	user.mangaList = newMangaList;
+	if(manga.linkNumbers == 1) {
+		manga.delete();
+	} else {
+		manga.linkNumbers--;
+		manga.update();
 	}
 	user.update();
-
 };
 
 repo.addUser = function(userObj) {
