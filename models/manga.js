@@ -19,9 +19,9 @@ var schema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	alreadyReaded: {
-		type: Boolean,
-		default: false
+	url: {
+		type: String,
+		required: true
 	}
 });
 

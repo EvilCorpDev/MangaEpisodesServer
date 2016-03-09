@@ -3,6 +3,7 @@
 	"mongoose": {
 		"dbuser": "manga-reader",
 		"dbpass": "zpk30101994",
-		"dburl": "ds011168.mlab.com:11168/manga-episodes"
+		"dburl": "ds011168.mlab.com:11168/manga-episodes",
+		"tokenExpires": 2592000000
 	}
 }

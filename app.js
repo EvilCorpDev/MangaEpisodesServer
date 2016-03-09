@@ -9,6 +9,7 @@ var repo = require('./repo');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var mangaApi = require('./routes/api/mangaAPI');
+var mangaApi = require('./routes/api/userAPI');
 
 var parser = require('./parser');
 
@@ -28,16 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/api', mangaApi);
-
-app.use('/test', function(req, res) {
-  console.log("testing parser");
-  var options = {
-    uri: 'http://readmanga.me/rakshasa_street',
-  };
-  parser.updateLastEpisode(options);
-  res.send('dsdsd');
-});
+app.use('/api/manga', mangaApi);
+app.use('/api/users', userApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
