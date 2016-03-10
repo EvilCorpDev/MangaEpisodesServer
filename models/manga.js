@@ -7,11 +7,11 @@ var schema = new Schema({
 		unique: true,
 		required: true
 	},
-	lastEpisode: {
+	episode: {
 		type: Number,
 		required: true
 	},
-	coverImg: {
+	img: {
 		type: String,
 		required: true
 	},
@@ -24,7 +24,7 @@ var schema = new Schema({
 		required: true
 	},
 	linkNumbers: {
-		tupe: Number,
+		type: Number,
 		default: 1
 	}
 });

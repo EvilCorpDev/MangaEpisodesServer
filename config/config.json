@@ -1,9 +1,10 @@
 {
 	"port": 3000,
+	"tokenExpires": 2592000000,
+	"sessionSecret": "some-secret",
 	"mongoose": {
 		"dbuser": "manga-reader",
 		"dbpass": "zpk30101994",
-		"dburl": "ds011168.mlab.com:11168/manga-episodes",
-		"tokenExpires": 2592000000
+		"dburl": "ds011168.mlab.com:11168/manga-episodes"
 	}
 }

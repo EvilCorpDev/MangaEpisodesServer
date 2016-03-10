@@ -22,7 +22,7 @@ var options = {
 
 //Run CronJob parsing manga episodes every Minute
 var job = new CronJob("*/1 * * * *", function() {
-  parser.updateLastEpisode(options);
+  //parser.updateLastEpisode(options);
 }, null, true);
 
 /**

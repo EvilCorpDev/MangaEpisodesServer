@@ -4,4 +4,4 @@ var token = function(size) {
 	return crypto.randomBytes(size).toString('hex');
 }
 
-modules.exports = token;
+module.exports = token;

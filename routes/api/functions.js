@@ -1,19 +1,9 @@
-var Token = require('../../lib/token');
+var Token = require('../../libs/token');
 var User = require('../../models/user').User;
 var config = require('../../config');
+var moment = require('moment');
 
 var apiFns = {
-
-	authenticate: function(req) {
-		if(req.body.username && req.body.password) {
-			var user = User.findOne({"username": req.body.username});
-			if(user && user.checkPassword(req.body.password)) {
-				return generateToken(req);
-			}
-		} else {
-			return 403;
-		}
-	},
 
 	checkAuthWithToken: function(req) {
 		var body = req.body;
@@ -22,7 +12,7 @@ var apiFns = {
 			return {"statusCode": 401,
 					"msg": "You are unauthorized"};
 		} else {
-			return checkToken(session, body);
+			return this.checkToken(session, body);
 		}
 	},
 
@@ -40,7 +30,7 @@ var apiFns = {
 	},
 
 	checkTokenExpires: function(token) {
-		return dates.compare(token.expires, Date.now());
+		return moment(token.expires).isAfter(Date.now());
 	},
 
 	checkTokenAuthority: function(token, username, secret) {
@@ -51,12 +41,12 @@ var apiFns = {
 	generateToken: function(req) {
 		var token = {};
 		token.secret = Token(48);
-		token.expires = Date.now() + config.get('tokenExpires');
+		token.expires = new Date (Date.now() + config.get('tokenExpires'));
 		token.username = req.body.username;
 		if(!req.session.tokens) {
-			req.session.tokens = [];
+			req.session.tokens = {};
 		}
-		req.session.tokens.push(token);
+		req.session.tokens[req.body.username] = token;
 		return token.secret;
 	}
 }

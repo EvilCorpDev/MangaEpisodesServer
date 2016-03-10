@@ -1,16 +1,17 @@
 var repo = require('../repo');
-var User = require('../models/user')
-var Manga = require('../models/manga');
+var User = require('../models/user').User;
+var Manga = require('../models/manga').Manga;
 
 repo.addUpdateManga = function(userName, mangaUrl) {
-	var user = new User(repo.users.find({"username": userName}));
-	var mangaObj = { "url": mangaUrl, "read": false };
-	var index = user.mangaList.indexOf(mangaObj);
-	if (index > -1) {
-		user.mangaList.splice(index, 1);
-	}
-	user.mangaList.push(mangaObj);
-	user.update();
+	User.findOne({"username": userName}, function(err, user){
+		var mangaObj = { "url": mangaUrl, "read": false };
+		var index = user.mangaList.indexOf(mangaObj);
+		if (index > -1) {
+			user.mangaList.splice(index, 1);
+		}
+		user.mangaList.push(mangaObj);
+		user.save();
+	});
 };
 
 // add returning result;
@@ -25,14 +26,14 @@ repo.deleteManga = function(userName, mangaUrl) {
 		manga.delete();
 	} else {
 		manga.linkNumbers--;
-		manga.update();
+		manga.save();
 	}
-	user.update();
+	user.save();
 };
 
 repo.addUser = function(userObj) {
-	var newUser = new User(user);
-	newUser.set('password', user.pass);
+	var newUser = new User(userObj);
+	newUser.set('password', userObj.pass);
 	newUser.save(function(err) {
 		console.log(newUser);
 	});

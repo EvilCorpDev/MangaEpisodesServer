@@ -4,57 +4,64 @@ var apiFns = require('../api/functions');
 var User = require('../../models/user').User;
 var Manga = require('../../models/manga').Manga;
 var router = express.Router();
+var parser = require('../../parser')
 
-router.get('/', function(req, res, next) {
-	res.json(auth(actions.getMangaAction, req));
+router.post('/all', function(req, res, next) {
+	auth(actions.getMangaAction, req, res);
 });
 
 router.post('/', function(req, res, next) {
-	res.json(auth(actions.addMangaAction, req));
+	auth(actions.addMangaAction, req, res);
 });
 
 router.post('/delete', function(req, res, next) {
-	res.json(auth(actions.delMangaAction, req));
+	auth(actions.delMangaAction, req, res);
 });
 
-var auth = function(action, req) {
+var auth = function(action, req, res) {
 	var authRes = apiFns.checkAuthWithToken(req);
 	if(authRes.statusCode == 200) {
-		return action(req);
+		return action(req, res);
 	} else {
+		res.status(authRes.statusCode);
 		return authRes;
 	}
 }
 
 var actions = {
 
-	getMangaAction: function(req) {
-		var user = User.find({"username": req.body.username});
-		if(user) {
-			var mangaList = user.mangaList.map(function(element) {
-				return element.url;
-			});
-			return Manga.find({"url": {"$in": mangaList}});
-		}
-	},
-
-	addMangaAction: function(req) {
-		if(req.body.url) {
-			var manga = Manga.findOne({"url": req.body.url})
-			if(!manga) {
-				var options = {uri: req.body.url};
-				parser.updateLastEpisode(options);
+	getMangaAction: function(req, res) {
+		User.findOne({"username": req.body.username}, function(err, user) {
+			if(user) {
+				console.log(user);
+				var mangaList = user.mangaList.map(function(element) {
+					return element.url;
+				});
+				Manga.find({"url": {"$in": mangaList}}, function (err, result) {
+					res.json(result);
+				});
 			}
-			repoFns.addUpdateManga(req.body.username, manga.url);
-		}
-		return {"statusCode": 200, "msg": "All is Ok"};
+		});
 	},
 
-	delMangaAction: function(req) {
+	addMangaAction: function(req, res) {
 		if(req.body.url) {
-			return repoFns.deleteManga(req.body.username, req.body.url);
+			Manga.findOne({"url": req.body.url}, function(err, manga) {
+				if(!manga) {
+					var options = {uri: req.body.url};
+					parser.updateLastEpisode(options);
+				}
+				repoFns.addUpdateManga(req.body.username, req.body.url);
+				res.json({"statusCode": 200, "msg": "All is Ok"});
+			});
 		}
-		return {"statusCode": 404, "msg": "Not specified subject of deleting"};
+	},
+
+	delMangaAction: function(req, res) {
+		if(req.body.url) {
+			res.json(repoFns.deleteManga(req.body.username, req.body.url));
+		}
+		res.json({"statusCode": 404, "msg": "Not specified subject of deleting"});
 	}
 
 }

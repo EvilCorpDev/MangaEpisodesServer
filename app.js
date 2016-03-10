@@ -5,15 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var repo = require('./repo');
+var config = require('./config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var mangaApi = require('./routes/api/mangaAPI');
-var mangaApi = require('./routes/api/userAPI');
+var userApi = require('./routes/api/userAPI');
 
 var parser = require('./parser');
 
 var app = express();
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +29,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: config.get('sessionSecret'),
+    store: new MongoStore({ mongooseConnection: repo.connection })
+}));
 
 app.use('/', routes);
 app.use('/users', users);

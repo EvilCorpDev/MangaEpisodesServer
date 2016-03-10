@@ -8,8 +8,11 @@ var parser = {
 			var mangaObj  = fns.callParser(options.uri, page);
 			mangaObj.url = options.uri;
 			var manga = new Manga(mangaObj);
-			manga.save();
-    	});
+			manga.save(function(err, result) {
+				console.log('\nmanga saving errors')
+				console.log(err);
+			});
+		});
 	},
 }
 
