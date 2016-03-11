@@ -4,8 +4,8 @@ var app = require('../app');
 var debug = require('debug')('MangaEpisodesServer:server');
 var http = require('http');
 var CronJob = require('cron').CronJob;
-var parser = require('../parser');
 var config = require('../config');
+var updateManga = require('../libs/updateMangaJob');
 
 var port = normalizePort(config.get('port') || '3000');
 app.set('port', port);
@@ -16,13 +16,8 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-var options = {
-    uri: 'http://readmanga.me/the_rising_of_the_shield_hero'
-};
-
-//Run CronJob parsing manga episodes every Minute
-var job = new CronJob("*/1 * * * *", function() {
-  //parser.updateLastEpisode(options);
+var job = new CronJob("0 */4 * * *", function() {
+  updateManga();
 }, null, true);
 
 /**

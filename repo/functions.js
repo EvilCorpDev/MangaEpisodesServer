@@ -2,10 +2,13 @@ var repo = require('../repo');
 var User = require('../models/user').User;
 var Manga = require('../models/manga').Manga;
 
-repo.addUpdateManga = function(userName, mangaUrl) {
+repo.addUpdateManga = function(userName, mangaUrl, read) {
 	User.findOne({"username": userName}, function(err, user){
-		var mangaObj = { "url": mangaUrl, "read": false };
-		var index = user.mangaList.indexOf(mangaObj);
+		if(!read) {
+			read = false;
+		}
+		var mangaObj = { "url": mangaUrl, "read": read };
+		var index = user.mangaList.map(function (obj) { return obj.url}).indexOf(mangaUrl);
 		if (index > -1) {
 			user.mangaList.splice(index, 1);
 		}

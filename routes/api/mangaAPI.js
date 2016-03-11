@@ -33,7 +33,6 @@ var actions = {
 	getMangaAction: function(req, res) {
 		User.findOne({"username": req.body.username}, function(err, user) {
 			if(user) {
-				console.log(user);
 				var mangaList = user.mangaList.map(function(element) {
 					return element.url;
 				});

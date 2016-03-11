@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var config = require('../config');
+var format = require('string-format');
 
-mongoose.connect('mongodb://manga-reader:zpk30101994@ds011168.mlab.com:11168/manga-episodes');
+mongoose.connect(format("mongodb://{dbuser}:{dbpass}@{dbhost}:{dbport}/{dbname}", config.get('mongoose')));
 
 module.exports = mongoose;
