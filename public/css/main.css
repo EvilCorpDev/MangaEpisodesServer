@@ -1011,6 +1011,7 @@ ul.elements li > i{
 
 .portfolio-single {
   position: relative;
+   box-shadow: 0 0 10px rgba(0,0,0,0.9);
 }
 
 .portfolio-thumb {
@@ -1024,8 +1025,8 @@ ul.elements li > i{
 
 .portfolio-single:hover .portfolio-view{
   display: block;
-  -webkit-animation: fadeInUp 400ms;
-  animation: fadeInUp 400ms;
+  -webkit-animation: fadeInUp 200ms;
+  animation: fadeInUp 200ms;
 }
 
 #portfolio .row{
@@ -1038,7 +1039,7 @@ ul.elements li > i{
   position: absolute;
   top: 0;
   height: 100%;
-  background:rgba(112, 35, 64, 0.9);
+  background:rgba(77, 82, 84, 0.9);
   width: 100%;
   text-align: center;
 }
@@ -1065,8 +1066,8 @@ ul.elements li > i{
   text-align: center;
   padding: 0;
   border-radius: 40px;
-  -webkit-animation: scaleIn 400ms linear 100ms both;
-  animation: scaleIn 400ms linear 100ms both;
+  -webkit-animation: scaleIn 200ms linear 100ms both;
+  animation: scaleIn 200ms linear 100ms both;
   -webkit-transition: all 0.9s ease;
   transition: all 0.9s ease;
 }
@@ -1081,9 +1082,13 @@ ul.elements li > i{
 .portfolio-info {
   overflow: hidden;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .portfolio-info h2 {
+  height: 40px;
   font-size: 18px;
   margin: 15px 0 0;
 }

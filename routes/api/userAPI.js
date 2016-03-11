@@ -21,7 +21,7 @@ router.post('/addUser', function(req, res, next) {
 	repoFns.addUser(user);
 
 	User.find({'username': user.username},function (err, user) {
-		if(!err) {
+		if(!err && user) {
 			res.json(clearUser(user));
 		} else {
 			res.json({"statusCode": 500, "msg": "Something was wrong"});

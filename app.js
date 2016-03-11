@@ -9,6 +9,8 @@ var config = require('./config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var mangalist = require('./routes/mangalist');
+var details = require('./routes/details');
 var mangaApi = require('./routes/api/mangaAPI');
 var userApi = require('./routes/api/userAPI');
 
@@ -19,8 +21,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('public', path.join(__dirname, 'public'));
 app.set('view engine', 'ejs');
+app.use(express.static('covers'));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -36,6 +39,8 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/details', details);
+app.use('/mangalist', mangalist);
 app.use('/api/manga', mangaApi);
 app.use('/api/users', userApi);
 
@@ -43,7 +48,8 @@ app.use('/api/users', userApi);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  res.render(path.join(__dirname, './public/404.ejs'));
+  //next(err);
 });
 // error handlers
 

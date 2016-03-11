@@ -38,7 +38,9 @@ repo.addUser = function(userObj) {
 	var newUser = new User(userObj);
 	newUser.set('password', userObj.pass);
 	newUser.save(function(err) {
-		console.log(newUser);
+		if(err) {
+			console.log(err);
+		}
 	});
 }
 
