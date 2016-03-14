@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Portfolio Three Columns | Triangle</title>
+    <title>Manga List | Manga Worm</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/lightbox.css" rel="stylesheet"> 
@@ -17,7 +17,7 @@
 	    <script src="js/html5shiv.js"></script>
 	    <script src="js/respond.min.js"></script>
     <![endif]-->       
-    <link rel="shortcut icon" href="images/ico/favicon.ico">
+    <link rel="shortcut icon" href="images/ico/fav-icon-new.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
@@ -52,7 +52,7 @@
                     </button>
 
                     <a class="navbar-brand" href="index.html">
-                        <h1><img src="images/logo.png" alt="logo"></h1>
+                        <h1><img src="images/new-logo-mini.png" alt="logo"></h1>
                     </a>
                     
                 </div>
@@ -131,17 +131,14 @@
                     <div class="row">
                         <ul class="portfolio-filter text-center">
                             <li><a class="btn btn-default active" href="#" data-filter="*">All</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".branded">ReadManga</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".design">ReadMangaToday</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".folio">Folio</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".logos">Logos</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".mobile">Mobile</a></li>
-                            <li><a class="btn btn-default" href="#" data-filter=".mockup">Mockup</a></li>
+                            <% for (var site in sites) { %>
+                            <li><a class="btn btn-default" href="#" data-filter=".<%- site %>"><%- site %></a></li>
+                            <% } %>
                         </ul><!--/#portfolio-filter-->
                         
                         <div class="portfolio-items">
                             <% mangas.forEach(function(manga) {%>
-                            <div class="col-xs-6 col-sm-6 col-md-4 portfolio-item branded logos">
+                            <div class="col-xs-6 col-sm-6 col-md-4 portfolio-item <%- manga.hostname %>">
                                 <div class="portfolio-wrapper">
                                     <div class="portfolio-single">
                                         <div class="portfolio-thumb">
@@ -151,6 +148,7 @@
                                             <ul class="nav nav-pills">
                                                 <li><a href="details?id=<%- manga._id %>"><i class="fa fa-link"></i></a></li>
                                                 <li><a href="<%- manga._id %>.jpeg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-times"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>

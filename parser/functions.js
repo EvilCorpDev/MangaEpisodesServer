@@ -3,19 +3,21 @@ var cheerio = require('cheerio'),
 	entities = new Entities();
 
 var parserFns = {
-	mangaFox :'http://mangafox.me/',
-	mangaReader : 'http://www.mangareader.net/',
-	readManga : 'http://readmanga.me/',
-	readMangaToday : 'http://www.readmanga.today/',
+	sites: {
+		mangaFox :'http://mangafox.me/',
+		mangaReader : 'http://www.mangareader.net/',
+		readManga : 'http://readmanga.me/',
+		readMangaToday : 'http://www.readmanga.today/',
+	},
 
 	callParser : function (url, $data) {
-		if(url.indexOf(this.mangaFox) === 0) {
+		if(url.indexOf(this.sites.mangaFox) === 0) {
 			return this.getMangaObjMangaFox($data);
-		} else if(url.indexOf(this.mangaReader) === 0) {
+		} else if(url.indexOf(this.sites.mangaReader) === 0) {
 			return this.getMangaObjMangaReader($data);
-		} else if(url.indexOf(this.readManga) === 0) {
+		} else if(url.indexOf(this.sites.readManga) === 0) {
 			return this.getMangaObjReadManga($data);
-		} else if(url.indexOf(this.readMangaToday) === 0) {
+		} else if(url.indexOf(this.sites.readMangaToday) === 0) {
 			return this.getReadMangaTodayObject($data);
 		}
 	},
@@ -25,6 +27,7 @@ var parserFns = {
 		manga.episode = this.getEpisodeReadManga($data);
 		manga.title = this.getTitleReadManga($data);
 		manga.img = this.getImgReadManga($data);
+		manga.hostname = this.sites.readManga;
 		return manga;
 	},
 
@@ -33,6 +36,7 @@ var parserFns = {
 		manga.episode = this.getEpisodeMangaFox($data);
 		manga.title = this.getTitleMangaFox($data);
 		manga.img = this.getImgMangaFox($data);
+		manga.hostname = this.sites.mangaFox;
 		return manga;
 	},
 
@@ -41,6 +45,7 @@ var parserFns = {
 		manga.episode = this.getEpisodeMangaReader($data);
 		manga.title = this.getTitleMangaReader($data);
 		manga.img = this.getImgMangaReader($data);
+		manga.hostname = this.sites.mangaReader;
 		return manga;
 	},
 
@@ -49,6 +54,7 @@ var parserFns = {
 		manga.episode = this.getEpisodeReadMangaToday($data);
 		manga.title = this.getTitleReadMangaToday($data);
 		manga.img = this.getImgReadMangaToday($data);
+		manga.hostname = this.sites.readMangaToday;
 		return manga;	
 	},
 

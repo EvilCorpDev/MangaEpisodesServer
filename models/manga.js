@@ -26,6 +26,10 @@ var schema = new Schema({
 	linkNumbers: {
 		type: Number,
 		default: 1
+	},
+	hostname: {
+		type: String,
+		required: true
 	}
 });
 
