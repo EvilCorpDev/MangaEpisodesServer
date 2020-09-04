@@ -20,7 +20,7 @@
     "crypto": "~0.0.3",
     "express-session": "~1.13.0",
     "moment": "~2.24.0",
-    "mongodb": "~2.1.7",
+    "mongodb": "~3.6.1",
     "mongoose": "~5.7.7",
     "nconf": "~0.8.4",
     "request": "~2.69.0",
